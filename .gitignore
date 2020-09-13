@@ -1,25 +1,26 @@
-*.rbc
-capybara-*.html
-.rspec
-/db/*.sqlite3
-/db/*.sqlite3-journal
-/db/*.sqlite3-[0-9]*
-/public/system
-/coverage/
-/spec/tmp
-*.orig
-rerun.txt
-pickle-email-*.html
+# Server
+server/*.rbc
+server/capybara-*.html
+server/.rspec
+server/db/*.sqlite3
+server/db/*.sqlite3-journal
+server/db/*.sqlite3-[0-9]*
+server/public/system
+server/coverage/
+server/spec/tmp
+server/*.orig
+server/rerun.txt
+server/pickle-email-*.html
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+server/log/*
+server/tmp/*
+!server/log/.keep
+!server/tmp/.keep
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
-config/initializers/secret_token.rb
-config/master.key
+server/config/initializers/secret_token.rb
+server/config/master.key
 
 # Only include if you have production secrets in this file, which is no longer a Rails default
 # config/secrets.yml
@@ -29,39 +30,44 @@ config/master.key
 .env
 
 ## Environment normalization:
-/.bundle
-/vendor/bundle
+server/.bundle
+server/vendor/bundle
 
 # these should all be checked in to normalize the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
-.rvmrc
+server/.rvmrc
 
 # if using bower-rails ignore default bower_components path bower.json files
-/vendor/assets/bower_components
-*.bowerrc
-bower.json
+server/vendor/assets/bower_components
+server/*.bowerrc
+server/bower.json
 
 # Ignore pow environment settings
-.powenv
+server/.powenv
 
 # Ignore Byebug command history file.
-.byebug_history
+server/.byebug_history
 
 # Ignore node_modules
-node_modules/
+server/node_modules/
 
 # Ignore precompiled javascript packs
-/public/packs
-/public/packs-test
-/public/assets
+server/public/packs
+server/public/packs-test
+server/public/assets
 
 # Ignore yarn files
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
+server/yarn-error.log
+server/yarn-debug.log*
+server/.yarn-integrity
 
 # Ignore uploaded files in development
-/storage/*
-!/storage/.keep
+server/storage/*
+!server/storage/.keep
+
+# Infra
+infra/k8s/.kube
+infra/terraform/.terraform
+infra/terraform/terraform.*

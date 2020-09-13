@@ -3,11 +3,11 @@ services:
   db:
     image: postgres:11.6
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - ./server/tmp/db:/var/lib/postgresql/data
   web:
-    build: .
+    build: server/
     volumes:
-      - .:/app
+      - ./server:/app
     ports:
       - 3000:3000
     depends_on:
@@ -20,7 +20,7 @@ services:
       - AWS_DEFAULT_REGION=ap-northeast-1
       - KUBECONFIG=/workspace/k8s/.kube/config
     volumes:
-      - .:/workspace/rails
+      - ./server:/workspace/server
       - ./infra/k8s:/workspace/k8s
       - ./infra/terraform:/workspace/terraform
     privileged: true
