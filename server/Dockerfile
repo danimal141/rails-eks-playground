@@ -9,7 +9,7 @@ RUN gem install bundler -v 2.1.4
 WORKDIR /app
 COPY ./Gemfile /app/Gemfile
 COPY ./Gemfile.lock /app/Gemfile.lock
-RUN bundle install
+RUN bundle install -j4
 
 COPY . /app
 
