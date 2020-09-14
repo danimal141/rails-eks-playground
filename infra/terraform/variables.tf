@@ -40,6 +40,7 @@ variable "db_username" {
 variable "db_password" {
   # Override
   # RDS db password
+  # Should be at least 8 characters
 }
 
 variable "asg_desired_capacity" {
