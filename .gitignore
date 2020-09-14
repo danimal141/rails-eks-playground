@@ -73,3 +73,5 @@ infra/terraform/.terraform
 infra/terraform/terraform.*
 infra/terraform/*.tfstate
 infra/terraform/*.tfstate.*
+infra/terraform/manifests/*
+infra/terraform/.kube/*
