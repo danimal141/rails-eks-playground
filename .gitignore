@@ -69,9 +69,8 @@ server/storage/*
 
 # Infra
 infra/k8s/.kube
+infra/k8s
 infra/terraform/.terraform
 infra/terraform/terraform.*
 infra/terraform/*.tfstate
 infra/terraform/*.tfstate.*
-infra/terraform/manifests/*
-infra/terraform/.kube/*

@@ -3,7 +3,7 @@ variable "region" {
 }
 
 variable "project" {
-  default = "rails-eks-pg"
+  default = "sample-api"
 }
 
 variable "environment" {
@@ -35,12 +35,14 @@ variable "key_name" {
 variable "db_username" {
   # Override
   # RDS db username
+  default = "dbuser"
 }
 
 variable "db_password" {
   # Override
   # RDS db password
   # Should be at least 8 characters
+  default = "dbpassword"
 }
 
 variable "asg_desired_capacity" {

@@ -1,33 +1,5 @@
 locals {
-  kubeconfig = <<CONFIG
-apiVersion: v1
-clusters:
-- cluster:
-    server: ${aws_eks_cluster.cluster.endpoint}
-    certificate-authority-data: ${aws_eks_cluster.cluster.certificate_authority.0.data}
-  name: kubernetes
-contexts:
-- context:
-    cluster: kubernetes
-    user: aws
-  name: aws
-current-context: aws
-kind: Config
-preferences: {}
-users:
-- name: aws
-  user:
-    exec:
-      apiVersion: client.authentication.k8s.io/v1alpha1
-      command: aws
-      args:
-        - "eks"
-        - "get-token"
-        - "--cluster-name"
-        - "${local.cluster_name}"
-CONFIG
-
-  eks_configmap = <<CONFIGMAP
+  aws_auth = <<CONFIGMAP
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -41,12 +13,97 @@ data:
         - system:bootstrappers
         - system:nodes
 CONFIGMAP
+
+  rails_config = <<CONFIGMAP
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rails-config
+data:
+  RAILS_ENV: ${var.environment}
+  DB_USER: ${var.db_username}
+  DB_PASSWORD: ${var.db_password}
+  DB_HOST: ${aws_db_instance.rds.endpoint}
+CONFIGMAP
+
+  db_setup_job = <<JOB
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-setup-job
+spec:
+  template:
+    metadata:
+      name: db-setup-job
+    spec:
+      containers:
+      - name: db-setup-job
+        image: ${aws_ecr_repository.ecr.repository_url}
+        imagePullPolicy: Always
+        restartPolicy: Never
+        command: ["ash"]
+        args: ["-c", "bundle exec rails db:create && bundle exec rails db:migrate"]
+        envFrom:
+        - configMapRef:
+          name: rails-config
+  backoffLimit: 1
+JOB
+
+  deploy = <<DEPLOY
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy
+  labels:
+    app: sample-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-api
+  template:
+    metadata:
+      labels:
+        app: sample-api
+    spec:
+      containers:
+      - name: sample-api
+        image: ${aws_ecr_repository.ecr.repository_url}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+          name: rails-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetport: 3000
+DEPLOY
 }
 
-output "kubectl_config" {
-  value = local.kubeconfig
+output "aws_auth_configmap" {
+  value = local.aws_auth
 }
 
-output "eks_configmap" {
-  value = local.eks_configmap
+output "rails_config" {
+  value = local.rails_config
+}
+
+output "db_setup_job" {
+  value = local.db_setup_job
+}
+
+output "deploy" {
+  value = local.deploy
 }
