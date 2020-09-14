@@ -10,6 +10,11 @@ WORKDIR /app
 COPY ./Gemfile /app/Gemfile
 COPY ./Gemfile.lock /app/Gemfile.lock
 RUN bundle install -j4
+RUN if [ "${BUILD_MODE}" = "production" ]; then \
+      bundle install --without development test -j4; \
+    else \
+      bundle install --without production -j4; \
+    fi
 
 COPY . /app
 
