@@ -7,7 +7,7 @@ variable "project" {
 }
 
 variable "environment" {
-  default = "development"
+  default = "production"
 }
 
 variable "vpc_cidr_block" {
