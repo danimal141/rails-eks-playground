@@ -40,7 +40,7 @@ spec:
       - name: db-setup-job
         image: ${aws_ecr_repository.ecr.repository_url}
         imagePullPolicy: Always
-        command: ["ash"]
+        command: ["bash"]
         args: ["-c", "bundle exec rails db:create && bundle exec rails db:migrate"]
         envFrom:
         - configMapRef:
