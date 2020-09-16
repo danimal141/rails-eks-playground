@@ -23,7 +23,7 @@ data:
   RAILS_ENV: ${var.environment}
   DB_USER: ${var.db_username}
   DB_PASSWORD: ${var.db_password}
-  DB_HOST: ${aws_db_instance.rds.endpoint}
+  DB_HOST: ${aws_db_instance.rds.address}
 CONFIGMAP
 
   db_setup_job = <<JOB
