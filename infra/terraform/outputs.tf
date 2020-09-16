@@ -21,6 +21,7 @@ metadata:
   name: rails-config
 data:
   RAILS_ENV: ${var.environment}
+  RAILS_SERVE_STATIC_FILES: "true"
   DB_USER: ${var.db_username}
   DB_PASSWORD: ${var.db_password}
   DB_HOST: ${aws_db_instance.rds.address}
@@ -47,7 +48,6 @@ spec:
             name: rails-config
       restartPolicy: Never
   backoffLimit: 1
-  ttlSecondsAfterFinished: 30
 JOB
 
   deploy = <<DEPLOY
@@ -81,19 +81,19 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: server-service
+  name: sample-api-service
 spec:
   type: LoadBalancer
   selector:
-    app: server
+    app: sample-api
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
 DEPLOY
 }
 
-output "aws_auth_configmap" {
+output "aws_auth" {
   value = local.aws_auth
 }
 

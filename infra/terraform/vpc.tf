@@ -14,7 +14,7 @@ resource "aws_subnet" "public_subnet" {
   cidr_block = cidrsubnet(var.vpc_cidr_block, 8, count.index)
   availability_zone = element(data.aws_availability_zones.available.names, count.index % var.subnet_count)
   map_public_ip_on_launch = true
-  tags = merge(local.cluster_base_tags, { "Name" = "${local.base_name}-public-subnet-${count.index + 1}" })
+  tags = merge(local.cluster_base_tags, map("kubernetes.io/role/elb", 1), { "Name" = "${local.base_name}-public-subnet-${count.index + 1}" })
 }
 
 resource "aws_subnet" "private_subnet" {
@@ -23,7 +23,7 @@ resource "aws_subnet" "private_subnet" {
   cidr_block = cidrsubnet(var.vpc_cidr_block, 8, var.subnet_count + count.index)
   availability_zone = element(data.aws_availability_zones.available.names, count.index % var.subnet_count)
   map_public_ip_on_launch = false
-  tags = merge(local.cluster_base_tags, { "Name" = "${local.base_name}-private-subnet-${count.index + 1}" })
+  tags = merge(local.cluster_base_tags, map("kubernetes.io/role/internal-elb", 1), { "Name" = "${local.base_name}-private-subnet-${count.index + 1}" })
 }
 
 resource "aws_internet_gateway" "igw" {
@@ -139,7 +139,8 @@ resource "aws_security_group" "rds" {
     protocol = "tcp"
     from_port = 5432
     to_port = 5432
-    security_groups = [aws_eks_cluster.cluster.vpc_config[0].cluster_security_group_id]
+    # security_groups = [aws_eks_cluster.cluster.vpc_config[0].cluster_security_group_id]
+    security_groups = [aws_security_group.eks-node.id]
   }
 
   tags = merge(local.base_tags, { "Name" = "${local.base_name}-rds-sg" })

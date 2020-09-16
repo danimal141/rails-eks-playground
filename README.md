@@ -1,24 +1,45 @@
-# README
+# rails-eks-playground
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a toy project to try to create a Rails environment using EKS.
 
-Things you may want to cover:
+## Dependencies
+- AWS command (`v1.18.*`)
+- kubectl (`v1.17.*`)
+- Terraform (`v0.12.*`)
 
-* Ruby version
+## Create EKS base
 
-* System dependencies
+```bash
+// Initialize working dir
+$ terraform init
 
-* Configuration
+// dry-run
+$ terraform plan
 
-* Database creation
+// Create or change resources
+$ terraform apply -var 'key_name=YOUR KEY NAME'
 
-* Database initialization
+// Delete resources
+$ terraform destroy
+```
 
-* How to run the test suite
+## Recognize nodes
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+$ mkdir -p .kube
+$ mkdir -p manifests
 
-* Deployment instructions
+$ terraform output kubectl_config > .kube/config
+or
+$ aws eks update-kubeconfig --name ${cluster_name}
 
-* ...
+// https://aws.amazon.com/premiumsupport/knowledge-center/eks-worker-nodes-cluster/?nc1=h_ls
+// https://aws.amazon.com/jp/premiumsupport/knowledge-center/amazon-eks-cluster-access/
+$ terraform output aws_auth_configmap > ./manifests/awh-auth.yml
+
+$ export KUBECONFIG='.kube/config'
+$ kubectl apply -f manifests/aws-auth.yml
+
+// Check
+$ kubectl get nodes
+```

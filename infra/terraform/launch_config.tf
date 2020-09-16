@@ -36,4 +36,11 @@ resource "aws_launch_configuration" "lc" {
   lifecycle {
     create_before_destroy = true
   }
+
+  # To ensure IAM policies are created before
+  depends_on = [
+    aws_iam_role_policy_attachment.eks-worker-node,
+    aws_iam_role_policy_attachment.eks-cni,
+    aws_iam_role_policy_attachment.ecr-readonly
+  ]
 }
