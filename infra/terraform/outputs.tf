@@ -40,12 +40,12 @@ spec:
       - name: db-setup-job
         image: ${aws_ecr_repository.ecr.repository_url}
         imagePullPolicy: Always
-        restartPolicy: Never
         command: ["ash"]
         args: ["-c", "bundle exec rails db:create && bundle exec rails db:migrate"]
         envFrom:
         - configMapRef:
-          name: rails-config
+            name: rails-config
+      restartPolicy: Never
   backoffLimit: 1
 JOB
 
@@ -74,7 +74,7 @@ spec:
         - containerPort: 3000
         envFrom:
         - configMapRef:
-          name: rails-config
+            name: rails-config
 
 ---
 apiVersion: v1
