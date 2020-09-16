@@ -47,6 +47,7 @@ spec:
             name: rails-config
       restartPolicy: Never
   backoffLimit: 1
+  ttlSecondsAfterFinished: 30
 JOB
 
   deploy = <<DEPLOY
