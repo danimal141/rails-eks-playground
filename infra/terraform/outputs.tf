@@ -89,7 +89,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetport: 3000
+      targetPort: 3000
 DEPLOY
 }
 
