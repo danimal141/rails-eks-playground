@@ -54,8 +54,8 @@ $ aws ecr describe-repositories
 // Check the repository uri
 
 $ cd /workspace/server
-$ docker build -t ${repositoryUri}:latest --build-arg BUILD_MODE=production .
 
+$ docker build -t ${repositoryUri}:latest --build-arg BUILD_MODE=production .
 // Log in to ECR
 $ $(aws ecr get-login --no-include-email --region ap-northeast-1)
 $ docker push ${repositoryUri}:latest
@@ -65,8 +65,8 @@ $ docker push ${repositoryUri}:latest
 
 ```bash
 $ cd /workspace/k8s
-$ aws eks update-kubeconfig --name ${cluster_name}
 
+$ aws eks update-kubeconfig --name ${cluster_name}
 $ kubectl apply -f aws-auth.yaml
 
 // Check whether to get nodes correctly
