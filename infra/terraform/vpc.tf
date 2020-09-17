@@ -139,7 +139,6 @@ resource "aws_security_group" "rds" {
     protocol = "tcp"
     from_port = 5432
     to_port = 5432
-    # security_groups = [aws_eks_cluster.cluster.vpc_config[0].cluster_security_group_id]
     security_groups = [aws_security_group.eks-node.id]
   }
 
