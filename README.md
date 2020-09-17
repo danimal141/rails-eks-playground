@@ -2,11 +2,6 @@
 
 This is a toy project to try to create a Rails environment using EKS.
 
-## Dependencies
-- AWS command (`v1.18.*`)
-- kubectl (`v1.17.*`)
-- Terraform (`v0.12.*`)
-
 ## Development in local
 
 ```bash
