@@ -79,6 +79,10 @@ $ kubectl apply -f deploy.yaml
 $ kubectl get services
 // Find LoadBalancer Ingress value and make sure whether it works well
 
+// Create a new record
+$ kubectl exec -it ${pod_name} rails c
+$ User.create(name: 'some-name')
+
 // Clean up
 $ kubectl delete -f rails-config.yaml
 $ kubectl delete -f db-setup-job.yaml
