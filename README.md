@@ -2,6 +2,13 @@
 
 This is a toy project to try to create a Rails environment using EKS.
 
+This includes:
+- EKS
+  - Rails API servers
+  - Load Balancer
+- RDS
+  - PostgreSQL
+
 ## Development in local
 
 ```bash
