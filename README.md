@@ -81,7 +81,7 @@ $ kubectl get services
 
 // Create a new record
 $ kubectl exec -it ${pod_name} rails c
-$ User.create(name: 'some-name')
+> User.create(name: 'some-name')
 
 // Clean up
 $ kubectl delete -f rails-config.yaml
