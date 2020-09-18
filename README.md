@@ -2,7 +2,8 @@
 
 This is a toy project to try to create a Rails environment using EKS.
 
-This includes:
+This builds the following resources and related stuff.
+
 - EKS
   - Rails API servers
   - Load Balancer
